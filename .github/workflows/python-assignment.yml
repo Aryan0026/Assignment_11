@@ -1,30 +1,50 @@
-name: Test find_lowest_number.py
+name: Automated Test
 
-on:
+on: 
   push:
     branches:
-      - main
+      - main  # Trigger the workflow on push to the main branch
 
 jobs:
-  test:
+  automated_test:
+    name: Automated Test
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      # Step 1: Checkout the code from the repository
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      # Step 2: Set up Python (version 3.x)
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v3
         with:
-          python-version: "3.x"
+          python-version: "3.10"
 
-      - name: Run tests
+      # Step 3: Debugging - List files and print contents of input and expected files
+      - name: Debug Test Files
         run: |
-          mkdir output_files  # Create output directory
+          echo "Listing files in the repository:"
+          ls -R
+          
+          echo "Contents of test1_input.txt:"
+          cat test_data/test1_input.txt
+          
+          echo "Contents of test1_expected.txt:"
+          cat test_data/test1_expected.txt
+
+      # Step 4: Run tests and compare actual output to expected output
+      - name: Produce actual1.txt output
+        run: |
+          mkdir output_files  # Ensure the output directory exists
           python3 find_lowest_number.py test_data/test1_input.txt output_files/test1_output.txt
           diff output_files/test1_output.txt test_data/test1_expected.txt
-          
+
+      - name: Produce actual2.txt output
+        run: |
           python3 find_lowest_number.py test_data/test2_input.txt output_files/test2_output.txt
           diff output_files/test2_output.txt test_data/test2_expected.txt
-          
+
+      - name: Produce actual3.txt output
+        run: |
           python3 find_lowest_number.py test_data/test3_input.txt output_files/test3_output.txt
           diff output_files/test3_output.txt test_data/test3_expected.txt
