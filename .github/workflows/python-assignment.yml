@@ -31,7 +31,7 @@ jobs:
 
       - name: Produce test1_expected.txt output
         run: |
-          mkdir output_files  # Ensure the output directory exists
+          mkdir output_files
           python3 find_lowest_number.py test_data/test1_input.txt output_files/test1_output.txt
           diff output_files/test1_output.txt test_data/test1_expected.txt
 
